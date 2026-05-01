@@ -105,22 +105,22 @@ Open `frontend/index.html` in your browser — it automatically connects to the 
 ## API Endpoints
 
 ### Auth
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
+| Method | Endpoint | Description |
+|---|---|---|
 | POST | `/auth/register` | Create a new account
 | POST | `/auth/login` | Login and get JWT token
 
 ### Events
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
+| Method | Endpoint | Description |
+|---|---|---|
 | GET | `/events/` | Get all events
 | GET | `/events/{id}` | Get a single event
 | POST | `/events/` | Create a new event
 | DELETE | `/events/{id}` | Delete an event (creator only)
 
 ### RSVPs
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
+| Method | Endpoint | Description |
+|---|---|---|
 | GET | `/events/{id}/rsvps` | Get all RSVPs + summary
 | POST | `/events/{id}/rsvps` | Submit an RSVP
 | DELETE | `/events/{id}/rsvps/{rsvp_id}` | Cancel an RSVP
