@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Foyer — Where Every Gathering Begins</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&family=Epilogue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rust: #c94a1a;
+  --rust2: #e05a28;
+  --rust3: #f06a38;
+  --rust-dark: #8a2f0a;
+  --rust-pale: #fde8df;
+  --rust-pale2: #faf3ef;
+  --cream: #fdfaf7;
+  --white: #ffffff;
+  --ink: #1c1008;
+  --ink2: #3a2510;
+  --muted: #0d0d0d;
+  --muted2: #c4a080;
+  --border: #e8d5c4;
+  --border2: #d4b898;
+  --green: #2d7a4a;
+  --gold: #c4840a;
+  --red: #c42a1a;
+  --radius: 16px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 24px rgba(28,16,8,0.08);
+  --shadow-lg: 0 12px 48px rgba(28,16,8,0.14);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Epilogue', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c94a1a' fill-opacity='0.025'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 200; display: flex; align-items: center; gap: 24px; padding: 0 48px; height: 64px; background: rgba(253,250,247,0.94); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 0 var(--border); }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; font-style: italic; color: var(--ink); cursor: pointer; display: flex; align-items: center; gap: 10px; white-space: nowrap; transition: opacity 0.2s; text-decoration: none; flex-shrink: 0; }
+.logo:hover { opacity: 0.75; }
+.logo-icon { width: 34px; height: 34px; background: var(--rust); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; font-style: normal; color: #fff; flex-shrink: 0; font-family: 'Epilogue', sans-serif; box-shadow: 0 2px 8px rgba(201,74,26,0.35); }
+.nav-links { display: flex; gap: 24px; list-style: none; flex: 1; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; cursor: pointer; transition: color 0.2s; padding: 4px 0; position: relative; }
+.nav-links a:hover, .nav-links a.active { color: var(--ink); }
+.nav-links a.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--rust); border-radius: 2px; }
+.nav-search { display: flex; align-items: center; gap: 8px; background: var(--white); border: 1.5px solid var(--border); border-radius: 100px; padding: 8px 16px; min-width: 220px; transition: border-color 0.2s, box-shadow 0.2s; }
+.nav-search:focus-within { border-color: var(--rust); box-shadow: 0 0 0 3px rgba(201,74,26,0.1); }
+.nav-search input { background: none; border: none; outline: none; color: var(--ink); font-family: 'Epilogue', sans-serif; font-size: 13px; width: 100%; }
+.nav-search input::placeholder { color: var(--muted2); }
+.nav-actions { display: flex; gap: 10px; align-items: center; margin-left: auto; }
+#user-display { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); font-weight: 500; }
+.online-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; box-shadow: 0 0 5px var(--green); }
+
+/* BUTTONS */
+.btn { font-family: 'Epilogue', sans-serif; font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 100px; border: none; cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; text-decoration: none; }
+.btn-rust { background: var(--rust); color: #fff; box-shadow: 0 2px 8px rgba(201,74,26,0.3); }
+.btn-rust:hover { background: var(--rust2); box-shadow: 0 4px 16px rgba(201,74,26,0.4); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--muted); border: 1.5px solid var(--border2); }
+.btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+.btn-outline { background: transparent; color: var(--rust); border: 1.5px solid var(--rust); }
+.btn-outline:hover { background: var(--rust-pale); }
+.btn-danger { background: rgba(196,42,26,0.08); color: var(--red); border: 1px solid rgba(196,42,26,0.2); }
+.btn-danger:hover { background: rgba(196,42,26,0.15); }
+.btn-white { background: #fff; color: var(--rust); font-weight: 700; }
+.btn-white:hover { background: var(--rust-pale); transform: translateY(-1px); }
+.btn-sm { padding: 7px 14px; font-size: 12px; }
+.btn-lg { padding: 14px 32px; font-size: 15px; border-radius: 14px; }
+
+/* PAGES */
+.page { display: none; position: relative; z-index: 1; }
+.page.active { display: block; }
+
+/* HERO */
+.hero-wrap { background: linear-gradient(145deg, var(--rust-dark) 0%, var(--rust) 55%, var(--rust2) 100%); position: relative; overflow: hidden; }
+.hero-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 0% 0%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(ellipse 40% 60% at 100% 100%, rgba(0,0,0,0.15) 0%, transparent 50%); }
+.hero-wrap::after { content: ''; position: absolute; right: -120px; top: -120px; width: 500px; height: 500px; border: 1px solid rgba(255,255,255,0.07); border-radius: 50%; pointer-events: none; }
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 80px 48px; position: relative; z-index: 1; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 100px; margin-bottom: 24px; letter-spacing: 0.5px; }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(44px, 5.5vw, 72px); font-weight: 700; line-height: 1.0; letter-spacing: -1px; margin-bottom: 20px; color: #fff; }
+.hero h1 em { font-style: italic; color: var(--rust-pale); }
+.hero-desc { font-size: 16px; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 36px; max-width: 440px; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-stats { display: flex; gap: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 500; }
+.featured-card { background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.3); }
+.featured-img { width: 100%; height: 220px; background: linear-gradient(135deg, var(--rust-pale) 0%, var(--rust-pale2) 100%); display: flex; align-items: center; justify-content: center; font-size: 64px; }
+.featured-body { padding: 20px 24px 24px; }
+.featured-badge { display: inline-block; background: var(--rust); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.featured-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.featured-loc { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.featured-footer { display: flex; align-items: center; justify-content: space-between; }
+.avatar-row { display: flex; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; margin-right: -8px; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; }
+.avatar-count { font-size: 12px; color: var(--muted); margin-left: 16px; }
+
+/* MAIN */
+.main-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 48px 80px; }
+.cats-strip { display: flex; gap: 8px; margin-bottom: 36px; flex-wrap: wrap; }
+.cat-btn { font-family: 'Epilogue', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 18px; border-radius: 100px; border: 1.5px solid var(--border); background: var(--white); color: var(--muted); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+.cat-btn:hover { border-color: var(--rust); color: var(--rust); }
+.cat-btn.active { background: var(--rust); color: #fff; border-color: var(--rust); box-shadow: 0 2px 8px rgba(201,74,26,0.3); }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; letter-spacing: -0.5px; color: var(--ink); }
+
+/* EVENTS GRID */
+.events-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.event-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: all 0.25s ease; box-shadow: var(--shadow); }
+.event-card:hover { border-color: var(--rust); transform: translateY(-5px); box-shadow: var(--shadow-lg), 0 0 0 1px rgba(201,74,26,0.1); }
+.event-card-img { height: 160px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 52px; }
+.card-bg-1 { background: linear-gradient(135deg, #fde8df, #faf0e8); }
+.card-bg-2 { background: linear-gradient(135deg, #e8f0fd, #f0e8fa); }
+.card-bg-3 { background: linear-gradient(135deg, #e8fdf0, #f8fde8); }
+.card-bg-4 { background: linear-gradient(135deg, #fdf8e8, #fde8e8); }
+.card-bg-5 { background: linear-gradient(135deg, #e8fdf8, #e8e8fd); }
+.event-card-date-badge { position: absolute; top: 12px; left: 12px; background: var(--rust); color: #fff; border-radius: 10px; padding: 6px 10px; text-align: center; box-shadow: 0 2px 8px rgba(201,74,26,0.4); }
+.badge-day { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; line-height: 1; }
+.badge-month { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; }
+.new-badge { position: absolute; top: 12px; right: 12px; background: var(--white); color: var(--rust); font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 100px; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--rust); }
+.event-card-body { padding: 16px 18px 18px; }
+.event-card-cat { font-size: 10px; font-weight: 700; color: var(--rust); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+.event-card-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 8px; line-height: 1.2; }
+.event-card-loc { font-size: 12px; color: var(--muted); margin-bottom: 3px; }
+.event-card-time { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.event-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); }
+.spots-pill { font-size: 11px; color: var(--muted); background: var(--rust-pale2); padding: 4px 10px; border-radius: 100px; font-weight: 500; }
+.rsvp-btn { font-family: 'Epilogue', sans-serif; font-size: 12px; font-weight: 700; padding: 7px 16px; border-radius: 100px; border: 1.5px solid var(--rust); background: transparent; color: var(--rust); cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+.rsvp-btn:hover { background: var(--rust); color: #fff; box-shadow: 0 2px 8px rgba(201,74,26,0.3); }
+
+/* FEATURES */
+.features-wrap { background: var(--ink); padding: 72px 48px; position: relative; z-index: 1; }
+.features-inner { max-width: 1200px; margin: 0 auto; }
+.features-title { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 700; font-style: italic; color: #fff; text-align: center; margin-bottom: 12px; letter-spacing: -0.5px; }
+.features-sub { text-align: center; color: rgba(255,255,255,0.5); font-size: 15px; margin-bottom: 48px; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.feature-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 28px 24px; transition: border-color 0.2s; }
+.feature-item:hover { border-color: rgba(201,74,26,0.4); }
+.feature-icon { width: 48px; height: 48px; background: var(--rust); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+.feature-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.feature-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* STATS */
+.stats-wrap { background: var(--rust); padding: 56px 48px; position: relative; z-index: 1; }
+.stats-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+.stats-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 8px; }
+.stats-label { font-size: 13px; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+/* EMPTY */
+.empty-state { text-align: center; padding: 80px 32px; }
+.empty-icon { font-size: 56px; margin-bottom: 16px; }
+.empty-state h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.empty-state p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(28,16,8,0.6); backdrop-filter: blur(12px); z-index: 300; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 36px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; animation: modalIn 0.3s ease; box-shadow: var(--shadow-lg); }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal-tag { font-size: 11px; font-weight: 700; color: var(--rust); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; color: var(--ink); margin-bottom: 28px; letter-spacing: -0.5px; padding-bottom: 20px; border-bottom: 1.5px solid var(--border); }
+
+/* FORM */
+.form-group { margin-bottom: 18px; }
+label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 1.5px; }
+input, textarea, select { width: 100%; background: var(--cream); border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--ink); font-family: 'Epilogue', sans-serif; font-size: 14px; padding: 11px 15px; outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none; }
+input:focus, textarea:focus, select:focus { border-color: var(--rust); box-shadow: 0 0 0 3px rgba(201,74,26,0.1); background: #fff; }
+textarea { resize: vertical; min-height: 90px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-actions { display: flex; gap: 12px; margin-top: 24px; padding-top: 20px; border-top: 1.5px solid var(--border); }
+.form-actions .btn { flex: 1; justify-content: center; }
+
+/* DETAIL */
+.detail-hero { background: linear-gradient(145deg, var(--rust-dark), var(--rust)); position: relative; overflow: hidden; }
+.detail-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 100% 0%, rgba(255,255,255,0.08) 0%, transparent 50%); }
+.detail-inner { position: relative; max-width: 1200px; margin: 0 auto; padding: 48px 48px 40px; }
+.back-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); cursor: pointer; margin-bottom: 28px; background: none; border: none; font-family: 'Epilogue', sans-serif; transition: color 0.2s; padding: 0; }
+.back-btn:hover { color: #fff; }
+.detail-cat { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+.detail-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 700; font-style: italic; color: #fff; letter-spacing: -1px; line-height: 1.0; margin-bottom: 18px; }
+.detail-meta-row { display: flex; gap: 24px; flex-wrap: wrap; }
+.detail-meta-item { font-size: 14px; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 7px; }
+.detail-body { max-width: 1200px; margin: 0 auto; padding: 40px 48px 80px; display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start; }
+.detail-desc { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 32px; padding: 20px 24px; background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); border-left: 3px solid var(--rust); }
+.rsvps-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.rsvps-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--ink); }
+
+/* SIDEBAR */
+.sidebar-card { background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 24px; position: sticky; top: 80px; box-shadow: var(--shadow); }
+.sidebar-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+.summary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.stat-box { background: var(--cream); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px 8px; text-align: center; }
+.stat-number { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.stat-number.going { color: var(--green); }
+.stat-number.maybe { color: var(--gold); }
+.stat-number.no { color: var(--red); }
+.stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
+.capacity-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.bar-track { height: 6px; background: var(--rust-pale); border-radius: 100px; overflow: hidden; }
+.bar-fill { height: 100%; background: linear-gradient(90deg, var(--rust-dark), var(--rust2)); border-radius: 100px; transition: width 0.5s ease; }
+
+/* RSVP LIST */
+.rsvp-list { display: flex; flex-direction: column; gap: 10px; }
+.rsvp-item { display: flex; align-items: center; background: var(--white); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; transition: border-color 0.2s; }
+.rsvp-item:hover { border-color: var(--rust); }
+.rsvp-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; margin-right: 12px; }
+.rsvp-info { flex: 1; }
+.rsvp-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.rsvp-email { font-size: 12px; color: var(--muted); }
+.status-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-yes { background: rgba(45,122,74,0.1); color: var(--green); border: 1px solid rgba(45,122,74,0.2); }
+.status-no { background: rgba(196,42,26,0.1); color: var(--red); border: 1px solid rgba(196,42,26,0.2); }
+.status-maybe { background: rgba(196,132,10,0.1); color: var(--gold); border: 1px solid rgba(196,132,10,0.2); }
+
+/* AUTH */
+.auth-page { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 40px; position: relative; z-index: 1; background: var(--cream); }
+.auth-box { background: var(--white); border: 1.5px solid var(--border); border-radius: 20px; padding: 44px; width: 100%; max-width: 460px; box-shadow: var(--shadow-lg); animation: modalIn 0.3s ease; }
+.auth-logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; font-style: italic; color: var(--rust); margin-bottom: 4px; }
+.auth-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+.auth-switch { text-align: center; margin-top: 20px; font-size: 13px; color: var(--muted); }
+.auth-switch a { color: var(--rust); cursor: pointer; font-weight: 600; text-decoration: none; }
+.auth-switch a:hover { text-decoration: underline; }
+
+/* TOAST */
+.toast-container { position: fixed; bottom: 28px; right: 28px; z-index: 999; display: flex; flex-direction: column; gap: 10px; }
+.toast { background: var(--ink); color: #fff; border-radius: var(--radius-sm); padding: 14px 20px; font-size: 13px; font-weight: 500; min-width: 260px; animation: modalIn 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 32px rgba(28,16,8,0.3); }
+.toast.success { border-left: 3px solid var(--rust); }
+.toast.error { border-left: 3px solid var(--red); }
+
+/* LOADER */
+.loading-state { text-align: center; padding: 80px 32px; color: var(--muted); font-size: 13px; }
+.loader { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--rust); border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* FOOTER */
+footer { background: var(--ink); padding: 56px 48px 32px; position: relative; z-index: 1; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 40px; }
+.footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; font-style: italic; color: var(--rust2); margin-bottom: 10px; }
+.footer-brand-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; max-width: 260px; }
+.footer-col-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links li { font-size: 13px; color: rgba(255,255,255,0.4); cursor: pointer; transition: color 0.2s; }
+.footer-links li:hover { color: var(--rust2); }
+.footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.25); }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 60px 24px; }
+  .hero-right { display: none; }
+  .detail-body { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  nav { padding: 0 24px; gap: 16px; }
+  .nav-links { display: none; }
+  .nav-search { min-width: 160px; }
+  .main-wrap { padding: 32px 24px 60px; }
+}
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .detail-inner { padding: 32px 24px; }
+  .detail-body { padding: 24px 24px 60px; }
+  .features-wrap, .stats-wrap { padding: 48px 24px; }
+  footer { padding: 48px 24px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="showPage('home')" title="Back to Home">
+    <div class="logo-icon">F</div>
+    The Foyer
+  </div>
+  <ul class="nav-links">
+    <li><a class="active" onclick="showPage('home')">Home</a></li>
+    <li><a onclick="showPage('home')">Events</a></li>
+    <li><a onclick="openCreateModal()">Create Event</a></li>
+  </ul>
+  <div class="nav-search">
+    <span>🔍</span>
+    <input type="text" id="search-input" placeholder="Search events..." oninput="clearTimeout(window._st); window._st = setTimeout(applyFilters, 250)">
+  </div>
+  <div class="nav-actions">
+    <div id="user-display" style="display:none">
+      <span class="online-dot"></span>
+      <span id="user-name-nav"></span>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="nav-login-btn" onclick="showPage('login')">Sign In</button>
+    <button class="btn btn-ghost btn-sm" id="nav-register-btn" onclick="showPage('register')">Register</button>
+    <button class="btn btn-rust btn-sm" id="nav-create-btn" style="display:none" onclick="openCreateModal()">+ Create Event</button>
+    <button class="btn btn-ghost btn-sm" id="nav-logout-btn" style="display:none" onclick="logout()">Sign Out</button>
+  </div>
+</nav>
+
+<div class="toast-container" id="toast-container"></div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero-wrap">
+    <div class="hero">
+      <div>
+        <div class="hero-tag">✦ Live Events Platform</div>
+        <h1>Make Every Event<br><em>Unforgettable</em></h1>
+        <p class="hero-desc">Create stunning events, manage RSVPs, and bring people together — all in one beautifully crafted place.</p>
+        <div class="hero-actions">
+          <button class="btn btn-white btn-lg" onclick="openCreateModal()">Create an Event →</button>
+          <button class="btn btn-lg" style="background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,0.3);" onclick="document.getElementById('events-anchor').scrollIntoView({behavior:'smooth'})">Browse Events</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-num">10K+</div><div class="stat-label">Events Hosted</div></div>
+          <div><div class="stat-num">2M+</div><div class="stat-label">Happy Attendees</div></div>
+          <div><div class="stat-num">4.9/5</div><div class="stat-label">Organizer Rating</div></div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="featured-card">
+          <div class="featured-img">🎪</div>
+          <div class="featured-body">
+            <span class="featured-badge">Featured Tonight</span>
+            <div class="featured-title">The Grand Opening Night</div>
+            <div class="featured-loc">📍 The Foyer, Bangalore</div>
+            <div class="featured-footer">
+              <div style="display:flex;align-items:center;">
+                <div class="avatar-row">
+                  <div class="avatar" style="background:var(--rust)">A</div>
+                  <div class="avatar" style="background:var(--rust-dark)">B</div>
+                  <div class="avatar" style="background:var(--ink2)">C</div>
+                </div>
+                <span class="avatar-count">+125 going</span>
+              </div>
+              <button class="rsvp-btn">RSVP Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-wrap" id="events-anchor">
+    <div class="cats-strip">
+      <button class="cat-btn active" onclick="setCat(this,'all')">🎯 All Events</button>
+      <button class="cat-btn" onclick="setCat(this,'music')">🎵 Music</button>
+      <button class="cat-btn" onclick="setCat(this,'tech')">💻 Tech</button>
+      <button class="cat-btn" onclick="setCat(this,'business')">💼 Business</button>
+      <button class="cat-btn" onclick="setCat(this,'sports')">⚽ Sports</button>
+      <button class="cat-btn" onclick="setCat(this,'art')">🎨 Art & Culture</button>
+      <button class="cat-btn" onclick="setCat(this,'workshop')">🛠️ Workshop</button>
+      <button class="cat-btn" onclick="setCat(this,'general')">📌 General</button>
+    </div>
+    <div class="section-header">
+      <div class="section-title">Upcoming Events</div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <span id="event-count" style="font-size:13px;color:var(--muted);"></span>
+        <button class="btn btn-ghost btn-sm" onclick="loadEvents()">↺ Refresh</button>
+      </div>
+    </div>
+    <div id="events-container">
+      <div class="loading-state"><div class="loader"></div><br>Loading events...</div>
+    </div>
+  </div>
+
+  <div class="features-wrap">
+    <div class="features-inner">
+      <div class="features-title">Everything You Need to Run Amazing Events</div>
+      <div class="features-sub">Built for organizers who care about the experience</div>
+      <div class="features-grid">
+        <div class="feature-item"><div class="feature-icon">📋</div><div class="feature-name">Easy Event Creation</div><div class="feature-desc">Create and publish events in seconds with our intuitive form. Add category, capacity and more.</div></div>
+        <div class="feature-item"><div class="feature-icon">👥</div><div class="feature-name">RSVP Management</div><div class="feature-desc">Track RSVPs in real-time. See who's going, maybe, or skipping — all in one place.</div></div>
+        <div class="feature-item"><div class="feature-icon">🔒</div><div class="feature-name">Secure Auth</div><div class="feature-desc">JWT-powered authentication keeps your events and data safe and private.</div></div>
+        <div class="feature-item"><div class="feature-icon">📊</div><div class="feature-name">Live Analytics</div><div class="feature-desc">See attendance counts and capacity bars update in real time as RSVPs come in.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-wrap">
+    <div class="stats-inner">
+      <div><div class="stats-num">10K+</div><div class="stats-label">Events Organized</div></div>
+      <div><div class="stats-num">2M+</div><div class="stats-label">Happy Attendees</div></div>
+      <div><div class="stats-num">500K+</div><div class="stats-label">RSVPs Submitted</div></div>
+      <div><div class="stats-num">4.9/5</div><div class="stats-label">Organizer Rating</div></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">The Foyer</div>
+        <div class="footer-brand-desc">The all-in-one platform for organizers to create, manage, and grow unforgettable gatherings.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <ul class="footer-links">
+          <li onclick="showPage('home')">Browse Events</li>
+          <li onclick="openCreateModal()">Create Event</li>
+          <li onclick="showPage('login')">Sign In</li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Resources</div>
+        <ul class="footer-links"><li>Help Center</li><li>Organizer Guide</li><li>Contact Us</li></ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links"><li>About Us</li><li>Careers</li><li>Privacy Policy</li></ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Foyer. All rights reserved.</span>
+      <span>Built with FastAPI + ❤️</span>
+    </div>
+  </footer>
+</div>
+
+<!-- DETAIL PAGE -->
+<div class="page" id="page-detail">
+  <div class="detail-hero">
+    <div class="detail-inner">
+      <button class="back-btn" onclick="showPage('home')">← Back to Events</button>
+      <div class="detail-cat" id="detail-cat"></div>
+      <h1 class="detail-title" id="detail-title"></h1>
+      <div class="detail-meta-row">
+        <div class="detail-meta-item">📅 <span id="detail-date"></span></div>
+        <div class="detail-meta-item">📍 <span id="detail-location"></span></div>
+        <div class="detail-meta-item" id="detail-cap-meta"></div>
+      </div>
+    </div>
+  </div>
+  <div class="detail-body">
+    <div>
+      <p class="detail-desc" id="detail-desc"></p>
+      <div class="rsvps-header">
+        <div class="rsvps-title">Attendees</div>
+        <button class="btn btn-rust btn-sm" onclick="openRsvpModal()">+ RSVP Now</button>
+      </div>
+      <div id="rsvp-list-container"><div class="loading-state"><div class="loader"></div></div></div>
+    </div>
+    <div>
+      <div class="sidebar-card">
+        <div class="sidebar-label">Attendance Summary</div>
+        <div class="summary-stats">
+          <div class="stat-box"><div class="stat-number going" id="stat-going">0</div><div class="stat-label">Going</div></div>
+          <div class="stat-box"><div class="stat-number maybe" id="stat-maybe">0</div><div class="stat-label">Maybe</div></div>
+          <div class="stat-box"><div class="stat-number no" id="stat-no">0</div><div class="stat-label">No</div></div>
+        </div>
+        <div id="capacity-section" style="display:none">
+          <div class="divider"></div>
+          <div class="capacity-label"><span>Capacity</span><span id="capacity-text"></span></div>
+          <div class="bar-track"><div class="bar-fill" id="capacity-fill" style="width:0%"></div></div>
+        </div>
+        <div class="divider"></div>
+        <button id="delete-event-btn" class="btn btn-danger btn-sm" style="width:100%;justify-content:center;display:none" onclick="submitDeleteEvent()">🗑 Delete Event</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN PAGE -->
+<div class="page" id="page-login">
+  <div class="auth-page">
+    <div class="auth-box">
+      <div class="auth-logo">The Foyer</div>
+      <div class="auth-sub">Welcome back — sign in to continue</div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="login-password" placeholder="••••••••" onkeydown="if(event.key==='Enter') login()"></div>
+      <div class="form-actions">
+        <button class="btn btn-ghost" onclick="showPage('home')">Cancel</button>
+        <button class="btn btn-rust" onclick="login()">Sign In →</button>
+      </div>
+      <div class="auth-switch">No account? <a onclick="showPage('register')">Register here</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER PAGE -->
+<div class="page" id="page-register">
+  <div class="auth-page">
+    <div class="auth-box">
+      <div class="auth-logo">The Foyer</div>
+      <div class="auth-sub">Create your account and start hosting</div>
+      <div class="form-group"><label>Full Name</label><input type="text" id="reg-name" placeholder="Arjun Kumar"></div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="you@example.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="reg-password" placeholder="••••••••" onkeydown="if(event.key==='Enter') register()"></div>
+      <div class="form-actions">
+        <button class="btn btn-ghost" onclick="showPage('home')">Cancel</button>
+        <button class="btn btn-rust" onclick="register()">Create Account →</button>
+      </div>
+      <div class="auth-switch">Have an account? <a onclick="showPage('login')">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE EVENT MODAL -->
+<div class="modal-overlay" id="create-modal">
+  <div class="modal">
+    <div class="modal-tag">New Event</div>
+    <div class="modal-title">Create an Event ✨</div>
+    <div class="form-group"><label>Event Name</label><input type="text" id="ev-name" placeholder="Tech Meetup Bangalore"></div>
+    <div class="form-group"><label>Description</label><textarea id="ev-desc" placeholder="Tell people what to expect..."></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Location</label><input type="text" id="ev-location" placeholder="Indiranagar, Bangalore"></div>
+      <div class="form-group"><label>Max Attendees</label><input type="number" id="ev-max" placeholder="Optional"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Date & Time</label><input type="text" id="ev-date" placeholder="2026-05-10 18:00"></div>
+      <div class="form-group">
+        <label>Category</label>
+        <select id="ev-category">
+          <option value="general">📌 General</option>
+          <option value="music">🎵 Music</option>
+          <option value="tech">💻 Tech</option>
+          <option value="business">💼 Business</option>
+          <option value="sports">⚽ Sports</option>
+          <option value="art">🎨 Art & Culture</option>
+          <option value="workshop">🛠️ Workshop</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('create-modal')">Cancel</button>
+      <button class="btn btn-rust" onclick="submitcreateEvent()">Publish Event →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RSVP MODAL -->
+<div class="modal-overlay" id="rsvp-modal">
+  <div class="modal">
+    <div class="modal-tag">Confirm Attendance</div>
+    <div class="modal-title">Your RSVP 🎟</div>
+    <div class="form-group"><label>Your Name</label><input type="text" id="rsvp-name" placeholder="Arjun Kumar"></div>
+    <div class="form-group"><label>Email Address</label><input type="email" id="rsvp-email" placeholder="you@example.com"></div>
+    <div class="form-group">
+      <label>Will you attend?</label>
+      <select id="rsvp-status">
+        <option value="yes">✅ Yes — I'll be there!</option>
+        <option value="maybe">🤔 Maybe — Not sure yet</option>
+        <option value="no">❌ No — Can't make it</option>
+      </select>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="closeModal('rsvp-modal')">Cancel</button>
+      <button class="btn btn-rust" onclick="submitRsvpForm()">Submit RSVP →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://127.0.0.1:8000';
+let token = localStorage.getItem('token');
+let currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+let currentEventId = null;
+let allEvents = [];
+let activeCategory = 'all';
+
+const cardBgs = ['card-bg-1','card-bg-2','card-bg-3','card-bg-4','card-bg-5'];
+const cardEmojis = ['🎤','🎪','💡','🎵','🚀','🎯','🎨','🌐','⚡','🔥'];
+const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const avatarBgs = ['#c94a1a','#8a2f0a','#e05a28','#3a2510','#6b3a1a'];
+const catLabels = { general:'📌 General', music:'🎵 Music', tech:'💻 Tech', business:'💼 Business', sports:'⚽ Sports', art:'🎨 Art & Culture', workshop:'🛠️ Workshop' };
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (name === 'home') loadEvents();
+  window.scrollTo(0, 0);
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  if (name === 'home') document.querySelector('.nav-links a')?.classList.add('active');
+}
+
+function toast(msg, type = 'success') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span>${type === 'success' ? '✓' : '✕'}</span> ${msg}`;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function openCreateModal() {
+  if (!token) { toast('Please sign in to create events', 'error'); showPage('login'); return; }
+  openModal('create-modal');
+}
+
+function openRsvpModal() { openModal('rsvp-modal'); }
+
+function updateNav() {
+  const loggedIn = !!token;
+  document.getElementById('nav-login-btn').style.display = loggedIn ? 'none' : '';
+  document.getElementById('nav-register-btn').style.display = loggedIn ? 'none' : '';
+  document.getElementById('nav-create-btn').style.display = loggedIn ? '' : 'none';
+  document.getElementById('nav-logout-btn').style.display = loggedIn ? '' : 'none';
+  const ud = document.getElementById('user-display');
+  ud.style.display = loggedIn && currentUser ? 'flex' : 'none';
+  if (currentUser) document.getElementById('user-name-nav').textContent = currentUser.name;
+}
+
+function logout() {
+  token = null; currentUser = null;
+  localStorage.removeItem('token'); localStorage.removeItem('user');
+  updateNav(); showPage('home'); toast('Signed out successfully');
+}
+
+function setCat(el, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  activeCategory = cat;
+  applyFilters();
+}
+
+function applyFilters() {
+  if (!allEvents.length) return;
+  const q = document.getElementById('search-input').value.toLowerCase().trim();
+  let filtered = allEvents;
+  if (activeCategory !== 'all') {
+    filtered = filtered.filter(e => (e.category || 'general') === activeCategory);
+  }
+  if (q) {
+    filtered = filtered.filter(e => {
+      const hay = (e.name + ' ' + (e.description || '') + ' ' + e.location + ' ' + (e.category || '')).toLowerCase();
+      return hay.includes(q);
+    });
+  }
+  renderEvents(filtered);
+}
+
+// ── API helper — always reads latest token ──
+async function apiFetch(path, options = {}) {
+  const currentToken = localStorage.getItem('token');
+  const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+  if (currentToken) headers['Authorization'] = `Bearer ${currentToken}`;
+  const res = await fetch(API + path, { ...options, headers });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail || 'Something went wrong');
+  return data;
+}
+
+// ── AUTH ──
+async function login() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-password').value;
+  if (!email || !pass) { toast('Please fill all fields', 'error'); return; }
+  try {
+    const form = new URLSearchParams();
+    form.append('username', email);
+    form.append('password', pass);
+    const res = await fetch(API + '/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: form
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Login failed');
+    // Save token immediately to localStorage
+    token = data.access_token;
+    currentUser = data.user;
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(currentUser));
+    updateNav();
+    toast(`Welcome back, ${currentUser.name}! 🎉`);
+    showPage('home');
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function register() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-password').value;
+  if (!name || !email || !pass) { toast('Please fill all fields', 'error'); return; }
+  try {
+    await apiFetch('/auth/register', { method: 'POST', body: JSON.stringify({ name, email, password: pass }) });
+    toast('Account created! Please sign in.');
+    // Auto-fill login fields
+    document.getElementById('login-email').value = email;
+    showPage('login');
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+// ── EVENTS ──
+async function loadEvents() {
+  document.getElementById('events-container').innerHTML = '<div class="loading-state"><div class="loader"></div><br>Loading events...</div>';
+  document.getElementById('event-count').textContent = '';
+  try {
+    allEvents = await apiFetch('/events/');
+    applyFilters();
+  } catch (e) {
+    document.getElementById('events-container').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">⚠️</div>
+        <h3>Connection Error</h3>
+        <p>Make sure your FastAPI server is running on port 8000</p>
+        <button class="btn btn-rust" onclick="loadEvents()">Try Again</button>
+      </div>`;
+  }
+}
+
+function getDateParts(dateStr) {
+  try {
+    const d = new Date(dateStr.replace(' ', 'T'));
+    if (isNaN(d)) return { day: '--', month: 'TBD' };
+    return { day: d.getDate(), month: months[d.getMonth()] };
+  } catch { return { day: '--', month: 'TBD' }; }
+}
+
+function renderEvents(events) {
+  const el = document.getElementById('events-container');
+  document.getElementById('event-count').textContent = events.length + ' event' + (events.length !== 1 ? 's' : '');
+  if (!events.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><h3>No Events Found</h3><p>Try a different search or category</p><button class="btn btn-rust" onclick="resetFilters()">Clear Filters</button></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="events-grid">${events.map((e, i) => {
+    const dp = getDateParts(e.date);
+    const bg = cardBgs[i % cardBgs.length];
+    const emoji = cardEmojis[i % cardEmojis.length];
+    const cat = catLabels[e.category] || '📌 General';
+    return `
+      <div class="event-card" onclick="openEvent(${e.id})">
+        <div class="event-card-img ${bg}">
+          ${emoji}
+          <div class="event-card-date-badge"><div class="badge-day">${dp.day}</div><div class="badge-month">${dp.month}</div></div>
+          ${i < 2 ? '<div class="new-badge">New</div>' : ''}
+        </div>
+        <div class="event-card-body">
+          <div class="event-card-cat">${cat}</div>
+          <div class="event-card-title">${e.name}</div>
+          <div class="event-card-loc">📍 ${e.location}</div>
+          <div class="event-card-time">🕐 ${e.date}</div>
+          <div class="event-card-footer">
+            <span class="spots-pill">${e.max_attendees ? e.max_attendees + ' max' : 'Open'}</span>
+            <button class="rsvp-btn" onclick="event.stopPropagation(); openEvent(${e.id})">RSVP Now</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('')}</div>`;
+}
+
+function resetFilters() {
+  document.getElementById('search-input').value = '';
+  activeCategory = 'all';
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.cat-btn').classList.add('active');
+  renderEvents(allEvents);
+}
+
+async function openEvent(id) {
+  currentEventId = id;
+  showPage('detail');
+  document.getElementById('rsvp-list-container').innerHTML = '<div class="loading-state"><div class="loader"></div></div>';
+  try {
+    const ev = await apiFetch(`/events/${id}`);
+    document.getElementById('detail-cat').textContent = catLabels[ev.category] || '📌 General';
+    document.getElementById('detail-title').textContent = ev.name;
+    document.getElementById('detail-date').textContent = ev.date;
+    document.getElementById('detail-location').textContent = ev.location;
+    document.getElementById('detail-desc').textContent = ev.description || 'No description provided.';
+    document.getElementById('detail-cap-meta').textContent = ev.max_attendees ? '🎟 ' + ev.max_attendees + ' max seats' : '';
+    document.getElementById('delete-event-btn').style.display = (currentUser && currentUser.id === ev.owner_id) ? '' : 'none';
+    await loadRsvps(id, ev.max_attendees);
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function loadRsvps(eventId, maxAttendees) {
+  try {
+    const data = await apiFetch(`/events/${eventId}/rsvps`);
+    document.getElementById('stat-going').textContent = data.going;
+    document.getElementById('stat-maybe').textContent = data.maybe;
+    document.getElementById('stat-no').textContent = data.not_going;
+    if (maxAttendees) {
+      const pct = Math.min(100, Math.round((data.going / maxAttendees) * 100));
+      document.getElementById('capacity-section').style.display = '';
+      document.getElementById('capacity-text').textContent = data.going + '/' + maxAttendees;
+      document.getElementById('capacity-fill').style.width = pct + '%';
+    }
+    const container = document.getElementById('rsvp-list-container');
+    if (!data.rsvps.length) {
+      container.innerHTML = `<div class="empty-state" style="padding:40px 0;text-align:left;background:transparent;"><div class="empty-icon">👋</div><h3>No RSVPs yet</h3><p>Be the first to RSVP!</p></div>`;
+      return;
+    }
+    container.innerHTML = `<div class="rsvp-list">${data.rsvps.map((r, i) => `
+      <div class="rsvp-item">
+        <div class="rsvp-avatar" style="background:${avatarBgs[i % avatarBgs.length]}">${r.name[0].toUpperCase()}</div>
+        <div class="rsvp-info"><div class="rsvp-name">${r.name}</div><div class="rsvp-email">${r.email}</div></div>
+        <span class="status-badge status-${r.status}">${r.status === 'yes' ? '✓ Going' : r.status === 'no' ? '✗ No' : '? Maybe'}</span>
+      </div>`).join('')}</div>`;
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function submitcreateEvent() {
+  const name = document.getElementById('ev-name').value.trim();
+  const desc = document.getElementById('ev-desc').value.trim();
+  const location = document.getElementById('ev-location').value.trim();
+  const date = document.getElementById('ev-date').value.trim();
+  const max = document.getElementById('ev-max').value;
+  const category = document.getElementById('ev-category').value;
+
+  if (!name || !location || !date) { toast('Name, location and date are required', 'error'); return; }
+
+  // Always read token fresh from localStorage
+  const currentToken = localStorage.getItem('token');
+  if (!currentToken) {
+    toast('You must be signed in to create events', 'error');
+    closeModal('create-modal');
+    showPage('login');
+    return;
+  }
+
+  try {
+    const res = await fetch(API + '/events/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${currentToken}`
+      },
+      body: JSON.stringify({
+        name,
+        description: desc || null,
+        location,
+        date,
+        max_attendees: max ? parseInt(max) : null,
+        category
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Failed to create event');
+    closeModal('create-modal');
+    toast('Event published! 🎉');
+    ['ev-name','ev-desc','ev-location','ev-date','ev-max'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('ev-category').value = 'general';
+    loadEvents();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function submitRsvpForm() {
+  const name = document.getElementById('rsvp-name').value.trim();
+  const email = document.getElementById('rsvp-email').value.trim();
+  const status = document.getElementById('rsvp-status').value;
+  if (!name || !email) { toast('Please fill all fields', 'error'); return; }
+  try {
+    await apiFetch(`/events/${currentEventId}/rsvps`, { method: 'POST', body: JSON.stringify({ name, email, status }) });
+    closeModal('rsvp-modal');
+    toast('RSVP confirmed! See you there 🎉');
+    document.getElementById('rsvp-name').value = '';
+    document.getElementById('rsvp-email').value = '';
+    await loadRsvps(currentEventId);
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function submitDeleteEvent() {
+  if (!confirm('Delete this event? This cannot be undone.')) return;
+  try {
+    await apiFetch(`/events/${currentEventId}`, { method: 'DELETE' });
+    toast('Event deleted');
+    showPage('home');
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
+});
+
+updateNav();
+loadEvents();
+</script>
+</body>
+</html>
